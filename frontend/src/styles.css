@@ -100,19 +100,6 @@ h3 { font-size: 0.98rem; }
   box-shadow: var(--shadow);
 }
 
-.overlay {
-  position: absolute;
-  inset: auto 14px 14px 14px;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  align-items: flex-start;
-  pointer-events: none;
-}
-
-.overlay > * { pointer-events: auto; }
-
 .fps {
   position: absolute;
   top: 14px;
@@ -375,45 +362,28 @@ h3 { font-size: 0.98rem; }
   white-space: nowrap;
 }
 
-/* ---------------------------------------------------------------- legend */
+/* ------------------------------------------------- map panel (bottom left) */
 
-.legend {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 8px 12px;
-  border-radius: 9px;
-  background: rgb(255 255 255 / 0.94);
-  box-shadow: var(--shadow);
-  font-size: 0.76rem;
-  backdrop-filter: blur(4px);
-}
-
-.legend-title { font-weight: 700; color: var(--ink-2); }
-.legend ul { display: flex; gap: 11px; margin: 0; padding: 0; list-style: none; }
-.legend li { display: flex; align-items: center; gap: 5px; white-space: nowrap; }
-.legend i { width: 9px; height: 9px; border-radius: 2px; }
-
-/* ---------------------------------------------------------------- slider */
-
+/* In the sidebar, not over the map: an ordinary block, full width. */
 .slider-panel {
-  width: min(560px, calc(100vw - var(--panel-width) - 48px));
-  padding: 11px 14px 9px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 13px 10px;
+  border: 1px solid var(--line);
   border-radius: var(--radius);
-  background: rgb(255 255 255 / 0.96);
-  box-shadow: var(--shadow);
-  backdrop-filter: blur(6px);
+  background: var(--surface-2);
 }
+
+.slider-panel h2 { margin-bottom: -2px; }
 
 .slider-head {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 12px;
-  margin-bottom: 8px;
 }
 
-.slider-when { text-align: right; line-height: 1.25; }
+.slider-when { margin-left: auto; text-align: right; line-height: 1.25; }
 .slider-when strong { display: block; font-size: 0.88rem; }
 .slider-when .muted { font-size: 0.72rem; }
 
@@ -471,6 +441,22 @@ h3 { font-size: 0.98rem; }
 
 .slider-foot .muted { text-align: center; }
 
+/* The risk key, inside the same panel rather than a second one above it. */
+.legend-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin: 8px 0 0;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+  list-style: none;
+  font-size: 0.72rem;
+  color: var(--ink-2);
+}
+
+.legend-row li { display: flex; align-items: center; gap: 5px; white-space: nowrap; }
+.legend-row i { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+
 /* --------------------------------------------------- mapbox popup content */
 
 .mapboxgl-popup-content {
@@ -525,8 +511,6 @@ h3 { font-size: 0.98rem; }
   .app { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
   .panel { border-right: 0; border-bottom: 1px solid var(--line); max-height: 52vh; }
   .stage { min-height: 48vh; }
-  .slider-panel { width: calc(100vw - 48px); }
-  .legend { flex-wrap: wrap; gap: 6px 10px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

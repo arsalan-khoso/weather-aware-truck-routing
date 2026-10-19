@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { ApiError, getConfig, planTrip } from './api/client';
 import { CheckpointList } from './components/CheckpointList';
@@ -8,8 +8,7 @@ import type { RouteMapHandle } from './components/RouteMap';
 import { RouteSummary } from './components/RouteSummary';
 import { TripForm } from './components/TripForm';
 import { useFrameRate } from './hooks/useFrameRate';
-import { RISK_COLORS } from './risk';
-import type { AppConfig, Plan, PlanRequest, RiskLabel } from './types';
+import type { AppConfig, Plan, PlanRequest } from './types';
 
 /*
  * Page shell and the only place application state lives.
@@ -19,7 +18,6 @@ import type { AppConfig, Plan, PlanRequest, RiskLabel } from './types';
  * cause it to tear down or rebuild anything.
  */
 
-const RISK_BANDS: RiskLabel[] = ['Low', 'Moderate', 'High', 'Severe', 'No Travel'];
 const DEFAULT_INTERVALS = [10, 25, 50];
 
 export default function App() {
@@ -79,6 +77,7 @@ export default function App() {
   // catches up on release. Both callbacks are stable, so the memoised slider
   // never re-renders because of them.
   const liveHour = useCallback((next: number) => mapHandle.current?.setHour(next), []);
+
   const route = plan?.routes.find((r) => r.index === selected) ?? plan?.routes[0];
 
   return (
@@ -96,6 +95,17 @@ export default function App() {
         {plan?.warnings.map((warning) => (
           <div className="alert soft" key={warning} role="status">{warning}</div>
         ))}
+
+        {plan && (
+          <HeatmapSlider
+            heatmap={plan.heatmap}
+            hour={hour}
+            onLive={liveHour}
+            onCommit={setHour}
+            visible={showHeatmap}
+            onVisible={setShowHeatmap}
+          />
+        )}
 
         {plan && <RouteSummary plan={plan} selected={selected} onSelect={setSelected} />}
         {plan && route && (
@@ -124,20 +134,6 @@ export default function App() {
 
         {busy && <div className="stage-busy" role="status">Sampling the forecast along each route…</div>}
 
-        <div className="overlay">
-          <Legend />
-          {plan && (
-            <HeatmapSlider
-              heatmap={plan.heatmap}
-              hour={hour}
-              onLive={liveHour}
-              onCommit={setHour}
-              visible={showHeatmap}
-              onVisible={setShowHeatmap}
-            />
-          )}
-        </div>
-
         {showFps && (
           <div className="fps" role="status">
             {fps} fps <span className="muted">(low {Number.isFinite(low) ? low : '–'})</span>
@@ -147,19 +143,3 @@ export default function App() {
     </div>
   );
 }
-
-const Legend = memo(function Legend() {
-  return (
-    <div className="legend">
-      <span className="legend-title">Checkpoint risk</span>
-      <ul>
-        {RISK_BANDS.map((band) => (
-          <li key={band}>
-            <i style={{ background: RISK_COLORS[band] }} aria-hidden />
-            {band}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-});

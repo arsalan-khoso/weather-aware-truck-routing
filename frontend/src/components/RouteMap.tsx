@@ -234,10 +234,9 @@ export const RouteMap = memo(forwardRef<RouteMapHandle, Props>(function RouteMap
           .addTo(instance),
       );
 
-      instance.fitBounds(planBounds(plan), {
-        padding: { top: 60, bottom: 160, left: 60, right: 60 },
-        duration: 700,
-      });
+      // Nothing is drawn over the map any more - the forecast slider and the
+      // risk key live in the sidebar - so the route only needs an even margin.
+      instance.fitBounds(planBounds(plan), { padding: 56, duration: 700 });
     };
 
     if (ready.current) apply();
