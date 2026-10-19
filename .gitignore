@@ -19,3 +19,6 @@ dist/
 # tooling
 .vercel/
 .DS_Store
+
+.vercel
+.env*

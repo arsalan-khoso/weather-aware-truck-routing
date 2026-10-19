@@ -1,5 +1,7 @@
 # Weather-Aware Truck Routing
 
+**Live:** <https://weather-aware-truck-routing-jet.vercel.app>
+
 Pick the safest route for a loaded truck, scored on the weather each route will
 actually meet — not the weather at the moment you press the button.
 
@@ -344,8 +346,17 @@ warm cache    1.7 s        36× faster
 
 Re-planning usually means changing the load or the interval, which keeps the
 same departure and therefore the same cache entries — the common case is the
-fast one. On a server with ordinary bandwidth the cold case is a fraction of
-this; the slow figures above are a property of the connection, not the design.
+fast one.
+
+The slow figures above are a property of that connection, not of the design.
+The same trip against the deployed instance, where the server has ordinary
+bandwidth:
+
+```
+Chicago -> Denver, sampled every 25 miles
+  cold   4.6 s      3 routes, 110 forecast cells, 128 KB response
+  warm   1.7 s
+```
 
 **Open-Meteo's free tier** allows 600 calls/minute, 5,000/hour and 10,000/day
 per IP, and **every location in a batch counts as a call**. A 1,000-mile trip
