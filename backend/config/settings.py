@@ -63,9 +63,16 @@ CACHES = {
 
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_DIRS = [p for p in [REPO_DIR / "frontend" / "dist" / "assets"] if p.exists()]
+# The built app's assets, kept under an "assets/" prefix so the URLs Vite wrote
+# into index.html resolve as /static/assets/... .
+_DIST_ASSETS = REPO_DIR / "frontend" / "dist" / "assets"
+STATICFILES_DIRS = [("assets", _DIST_ASSETS)] if _DIST_ASSETS.exists() else []
+
+# Compressed, but deliberately not the manifest storage: Vite already
+# content-hashes every filename, and the manifest pass cannot rewrite ES module
+# imports inside a bundled chunk, so it would fail on a correct build.
 STORAGES = {
-    "staticfiles": {"BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"},
+    "staticfiles": {"BACKEND": "whitenoise.storage.CompressedStaticFilesStorage"},
 }
 
 # The Vite dev server runs on another port, so development needs CORS. Production

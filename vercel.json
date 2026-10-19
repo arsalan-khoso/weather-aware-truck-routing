@@ -1,0 +1,24 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "services": {
+    "web": {
+      "root": ".",
+      "buildCommand": "npm --prefix frontend ci && npm --prefix frontend run build && cd backend && python manage.py collectstatic --no-input",
+      "functions": {
+        "backend/config/wsgi.py": {
+          "maxDuration": 60
+        }
+      },
+      "entrypoint": "backend/config/wsgi.py"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": {
+        "type": "service",
+        "service": "web"
+      }
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/main.tsx","./src/risk.ts","./src/types.ts","./src/vite-env.d.ts","./src/api/client.ts","./src/components/checkpointlist.tsx","./src/components/heatmapslider.tsx","./src/components/routemap.tsx","./src/components/routesummary.tsx","./src/components/tripform.tsx","./src/hooks/useframerate.ts"],"version":"5.9.3"}

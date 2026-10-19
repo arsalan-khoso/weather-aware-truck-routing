@@ -1,0 +1,4 @@
+# The backend's dependencies. Kept here because the platform looks for a
+# requirements.txt at the repository root; backend/requirements.txt is the
+# real list.
+-r backend/requirements.txt

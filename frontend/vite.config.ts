@@ -4,7 +4,10 @@ import react from '@vitejs/plugin-react';
 // The API is proxied in development so the browser sees a single origin and
 // needs no CORS preflight on every plan request. In production Django serves
 // this build from the same origin, so the same relative paths keep working.
-export default defineConfig({
+export default defineConfig(({ command }) => ({
+  // Django serves the built assets under STATIC_URL, so production URLs are
+  // prefixed to match. The dev server keeps serving from the root.
+  base: command === 'build' ? '/static/' : '/',
   plugins: [react()],
   server: {
     port: 5173,
@@ -22,4 +25,4 @@ export default defineConfig({
       },
     },
   },
-});
+}));
