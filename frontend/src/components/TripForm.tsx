@@ -30,8 +30,10 @@ function nextHourLocal(): string {
    props do not depend on the hour, so React.memo skips it entirely and the
    slider only re-renders what actually changes. */
 export const TripForm = memo(function TripForm({ intervals, busy, onSubmit }: Props) {
-  const [origin, setOrigin] = useState('Chicago, IL');
-  const [destination, setDestination] = useState('Denver, CO');
+  // Denver to Albuquerque: a real I-25 freight corridor, short enough to plan
+  // quickly and varied enough that the three options are genuinely different.
+  const [origin, setOrigin] = useState('Denver, CO');
+  const [destination, setDestination] = useState('Albuquerque, NM');
   const [departure, setDeparture] = useState(nextHourLocal);
   const [loadLb, setLoadLb] = useState('45000');
   const [interval, setInterval] = useState(intervals[1] ?? 25);
